@@ -1,18 +1,13 @@
 # ML / Data
 data/raw/
 data/predictions/
-
+mlruns/
 mlflow.db
 
 # Python cache
 __pycache__/
 *.pyc
 
-# Modelos pesados
-models/
-*.pkl
-*.h5
-*.zip
-
+   
 # IDE
-.vscode/
+.vscode/  
