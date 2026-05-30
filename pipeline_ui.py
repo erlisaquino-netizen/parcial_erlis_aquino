@@ -5,7 +5,7 @@ import pandas as pd
 import json
 import os
 
-"""examen parcial"""
+"""examen parcial - Erlis Aquino"""
 
 pred_path = "data/predictions/predictions.csv"
 
@@ -145,6 +145,133 @@ if st.button("▶️ Ejecutar Pipeline"):
 
     else:
         st.info("Top clientes disponible en dashboard de inferencia")
+
+
+        
+ 
+
+
+
+    # =========================
+    # SEGMENTACIÓN DE CLIENTES
+    # =========================
+
+    st.subheader("📈 Segmentación Inteligente de Clientes")
+
+    st.caption(
+        "El modelo clasifica automáticamente los clientes según su potencial "
+        "de conversión y valor económico esperado."
+    )
+
+    segmentos = pd.DataFrame({
+        "Nivel de Prioridad": [
+            "Prioridad 1",
+            "Prioridad 2",
+            "Prioridad 3",
+            "Prioridad 4",
+            "Prioridad 5"
+        ],
+        "Descripción": [
+            "Máxima oportunidad comercial",
+            "Alta oportunidad comercial",
+            "Oportunidad media",
+            "Baja oportunidad",
+            "Mínima oportunidad"
+        ]
+    })
+
+    st.table(segmentos)
+
+    prioridad = (
+        df_pred["priority_group"]
+        .value_counts()
+        .sort_index()
+    )
+
+    prioridad.index = [
+        "Prioridad 1",
+        "Prioridad 2",
+        "Prioridad 3",
+        "Prioridad 4",
+        "Prioridad 5"
+    ]
+
+    st.bar_chart(prioridad)
+
+    grupo_mayor = prioridad.idxmax()
+    cantidad_mayor = prioridad.max()
+
+    st.success(
+        f"Se identificaron {cantidad_mayor:,} clientes en {grupo_mayor}, "
+        "segmento considerado prioritario para campañas comerciales."
+    )
+
+    # =========================
+    # VALOR ECONÓMICO
+    # =========================
+
+    st.subheader("💰 Valor Económico Potencial por Segmento")
+
+    st.caption(
+        "Representa el monto económico asociado a cada grupo de prioridad. "
+        "Permite enfocar esfuerzos comerciales donde existe mayor retorno esperado."
+    )
+
+    valor_grupo = (
+        df_pred.groupby("priority_group")["monto"]
+        .sum()
+        .sort_index()
+    )
+
+    valor_grupo.index = [
+        "Prioridad 1",
+        "Prioridad 2",
+        "Prioridad 3",
+        "Prioridad 4",
+        "Prioridad 5"
+    ]
+
+    st.bar_chart(valor_grupo)
+
+    grupo_valor = valor_grupo.idxmax()
+    valor_max = valor_grupo.max()
+
+    st.success(
+        f"El mayor valor económico potencial se concentra en "
+        f"{grupo_valor}, con aproximadamente S/ {valor_max:,.0f}."
+    )
+
+    # =========================
+    # TOP CLIENTES
+    # =========================
+
+    st.subheader("🏆 Top 10 Clientes Recomendados para Contacto")
+
+    st.caption(
+        "Ranking generado por el modelo de Machine Learning. "
+        "Estos clientes presentan la mejor combinación entre probabilidad "
+        "de conversión y valor económico esperado."
+    )
+
+    top10 = (
+        df_pred
+        .sort_values("score", ascending=False)
+        [["codunicocli", "monto", "prob_model", "score", "priority_group"]]
+        .head(10)
+    )
+
+    top10.columns = [
+        "Cliente",
+        "Monto Potencial",
+        "Probabilidad Conversión",
+        "Score Negocio",
+        "Prioridad"
+    ]
+
+    st.dataframe(top10, use_container_width=True)
+
+
+
 
 
     #st.metric("AUC VALIDATION", f"{auc:.4f}")
