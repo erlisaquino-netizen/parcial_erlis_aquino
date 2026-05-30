@@ -1,27 +1,25 @@
 """
 Pipeline entrenamiento MLOps completo
 """
-
+"""
+evita hordcodeo
+"""
 import psutil
 import time
 import json
+import glob
 
 from src.preprocessing import load_multiple_files, preprocess
 from src.training import train_model
 from src.postprocessing import postprocess, export_results
-##codigo
 
-TRAIN_FILES = [
-    "data/raw/p1_extrac.csv",
-    "data/raw/p2_extrac.csv",
-    "data/raw/p3_extrac.csv",
-    "data/raw/p4_extrac.csv",
-    "data/raw/p5_extrac.csv",
-    "data/raw/p6_extrac.csv",
-    "data/raw/p7_extrac.csv",
-    "data/raw/p8_extrac.csv",
-    "data/raw/p9_extrac.csv"
-]
+
+# =========================
+# CONFIGURACIÓN DINÁMICA
+# =========================
+TRAIN_FILES = sorted(
+    glob.glob("data/raw/p*_extrac.csv")
+)
 
 
 def main():
@@ -37,6 +35,8 @@ def main():
     # INGESTA
     # =========================
     print("Cargando datasets...")
+    print(f"Archivos encontrados: {len(TRAIN_FILES)}")
+
     df = load_multiple_files(TRAIN_FILES)
 
     # =========================
@@ -79,21 +79,17 @@ def main():
     tiempo_total = round(fin - inicio, 2)
 
     # =========================
-    # METRICAS
+    # MÉTRICAS
     # =========================
     metrics = {
         "auc": auc,
-
         "train_auc": train_auc,
         "valid_auc": valid_auc,
         "decay": decay,
-
         "best_params": best_params,
         "optuna_best_score": best_score,
-
         "model_name": "LightGBM",
         "model_path": "models/best_model.pkl",
-
         "cpu_inicio": cpu_inicio,
         "cpu_final": cpu_fin,
         "ram_inicio": ram_inicio,
@@ -101,8 +97,6 @@ def main():
         "tiempo_total": tiempo_total
     }
 
-
-  
     with open("metrics.json", "w") as f:
         json.dump(metrics, f, indent=4)
 
@@ -114,4 +108,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()   
+    main()
