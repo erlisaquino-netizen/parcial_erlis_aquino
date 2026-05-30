@@ -6,7 +6,8 @@ import optuna
 import lightgbm as lgb
 import mlflow
 from sklearn.metrics import roc_auc_score
-
+import mlflow.lightgbm
+ 
 
 TARGET_COL = "target"
 
@@ -39,8 +40,10 @@ def objective(trial, X_train, y_train, X_valid, y_valid):
 
     return roc_auc_score(y_valid, preds)
 
-
+ 
 def train_model(df):
+
+    mlflow.set_experiment("pipeline_mlo_ps_lightgbm")
 
     train_df, valid_df, test_df = split_temporal(df)
 
@@ -90,11 +93,28 @@ def train_model(df):
     # =========================
     # MLFLOW
     # =========================
-    with mlflow.start_run():
+    """with mlflow.start_run():
         mlflow.log_params(best_params)
         mlflow.log_metric("train_auc", train_auc)
         mlflow.log_metric("valid_auc", valid_auc)
         mlflow.log_metric("decay", decay)
+    """
+
+
+    with mlflow.start_run():
+
+        mlflow.log_params(best_params)
+        mlflow.log_metric("train_auc", train_auc)
+        mlflow.log_metric("valid_auc", valid_auc)
+        mlflow.log_metric("decay", decay)
+
+        # 🔥 MODELO VERSIONADO (IMPORTANTE)
+        mlflow.lightgbm.log_model(
+            model,
+            artifact_path="model",
+            registered_model_name="lightgbm_mlo_ps_model"
+        )
+
 
     # =========================
     # GUARDAR MODELO
@@ -103,7 +123,7 @@ def train_model(df):
     joblib.dump(model, "models/best_model.pkl")
 
     print(f"AUC VALIDATION: {valid_auc:.4f}")
-
+  
     return (
         model,
         valid_preds,
