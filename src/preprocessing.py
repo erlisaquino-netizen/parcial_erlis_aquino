@@ -1,5 +1,5 @@
 """
-Preprocesamiento
+Preprocesamiento - parcial
 """
 
 import pandas as pd

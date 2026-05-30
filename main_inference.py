@@ -1,5 +1,5 @@
 """
-Inferencia producción
+Inferencia producción - parcial
 """
 
 import joblib

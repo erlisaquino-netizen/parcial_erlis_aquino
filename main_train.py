@@ -1,5 +1,5 @@
 """
-Pipeline entrenamiento MLOps completo
+Pipeline entrenamiento MLOps completo -parcial
 """
 """
 evita hordcodeo

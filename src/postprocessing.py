@@ -1,5 +1,5 @@
 """
-Posprocesamiento
+Posprocesamiento - parcial
 """
 
 import numpy as np

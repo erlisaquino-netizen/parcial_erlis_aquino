@@ -7,7 +7,7 @@ Rúbrica de evaluación:
 - Buenas prácticas (funciones, docstrings, PEP8) : 3 puntos
 
 
-Dataset: cargado desde DIRECCIÓN DRIVE
+Dataset: cargado desde DIRECCIÓN DRIVE - parcial
 """
 import src.preprocessing as pp
 import src.training as tr

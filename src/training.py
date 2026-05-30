@@ -1,5 +1,5 @@
 """
-Entrenamiento con Optuna + LightGBM
+Entrenamiento con Optuna + LightGBM -- parcial
 """
 
 import optuna

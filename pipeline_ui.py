@@ -4,7 +4,9 @@ import psutil
 import pandas as pd
 import json
 import os
- 
+
+"""examen parcial"""
+
 pred_path = "data/predictions/predictions.csv"
 
 if os.path.exists(pred_path):
