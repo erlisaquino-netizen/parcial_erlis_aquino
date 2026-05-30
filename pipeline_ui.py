@@ -3,6 +3,15 @@ import time
 import psutil
 import pandas as pd
 import json
+import os
+ 
+pred_path = "data/predictions/predictions.csv"
+
+if os.path.exists(pred_path):
+    df_pred = pd.read_csv(pred_path)
+else:
+    df_pred = None
+
 
 st.set_page_config(
     page_title="Pipeline MLOps",
@@ -90,6 +99,25 @@ if st.button("▶️ Ejecutar Pipeline"):
 
     st.subheader("📡 Monitoreo Operativo")
 
+
+
+
+
+    diff = abs(train_auc - valid_auc) if train_auc and valid_auc else None
+
+    if diff is not None:
+        st.metric("Train-Validation Gap", f"{diff:.4f}")
+
+        if diff < 0.02:
+            st.success("✔ Modelo bien generalizado")
+        elif diff < 0.05:
+            st.warning("⚠ Overfitting leve")
+        else:
+            st.error("🚨 Overfitting fuerte")
+
+
+
+
     m1, m2, m3, m4 = st.columns(4)
 
     m1.metric("CPU Inicio", f"{cpu_inicio}%")
@@ -100,12 +128,27 @@ if st.button("▶️ Ejecutar Pipeline"):
     # =========================
     # PERFORMANCE MODELO
     # =========================
-    st.subheader("🎯 Performance Modelo")
+    #st.subheader("🎯 Performance Modelo")
 
-    st.metric("AUC VALIDATION", f"{auc:.4f}")
+    #st.subheader("🏆 Top 10 Clientes Prioritarios")
 
+    #if "score" in locals():
+    #    st.dataframe(df.sort_values("score", ascending=False).head(10))
+
+    st.subheader("🏆 Top 10 Clientes Prioritarios")
+
+    if df_pred is not None and "score" in df_pred.columns:
+        top10 = df_pred.sort_values("score", ascending=False).head(10)
+        st.dataframe(top10)
+
+    else:
+        st.info("Top clientes disponible en dashboard de inferencia")
+
+
+    #st.metric("AUC VALIDATION", f"{auc:.4f}")
+    st.metric("AUC Validation", f"{valid_auc:.4f}")
     # =========================
-    # 🔥 NUEVO: TRAIN vs VALID
+    # 🔥 NUEVO: TRAIN vs VALID 
     # =========================
     st.subheader("📊 Train vs Validation AUC")
 
