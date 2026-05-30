@@ -1,0 +1,23 @@
+artifact_path: file:C:/Users/ARTURO/Desktop/tarea_parcial/mlruns/0/models/m-38614421c0e04ce6820b6e2eef9e74ad/artifacts
+flavors:
+  lightgbm:
+    code: null
+    data: model.pkl
+    lgb_version: 4.6.0
+    model_class: lightgbm.sklearn.LGBMClassifier
+    serialization_format: cloudpickle
+    skops_trusted_types: null
+  python_function:
+    data: model.pkl
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.lightgbm
+    python_version: 3.14.3
+mlflow_version: 3.11.1
+model_id: m-38614421c0e04ce6820b6e2eef9e74ad
+model_size_bytes: 1775507
+model_uuid: m-38614421c0e04ce6820b6e2eef9e74ad
+prompts: null
+run_id: 67c738db84f845d382d9f269f0d44989
+utc_time_created: '2026-05-30 01:12:53.806872'

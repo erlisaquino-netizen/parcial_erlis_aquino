@@ -1,7 +1,7 @@
 # ML / Data
 data/raw/
 data/predictions/
-mlruns/
+
 mlflow.db
 
 # Python cache
