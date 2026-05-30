@@ -1,20 +1,20 @@
 {
-    "auc": 0.8567625181816508,
-    "train_auc": 0.8690400724240174,
-    "valid_auc": 0.8567625181816508,
-    "decay": 1.23,
+    "auc": 0.8573313449343773,
+    "train_auc": 0.8752802482205322,
+    "valid_auc": 0.8573313449343773,
+    "decay": 1.79,
     "best_params": {
-        "learning_rate": 0.12939822650671118,
-        "num_leaves": 33,
-        "max_depth": 5,
-        "n_estimators": 209
+        "learning_rate": 0.048748804796336864,
+        "num_leaves": 65,
+        "max_depth": 10,
+        "n_estimators": 243
     },
-    "optuna_best_score": 0.8567625181816508,
+    "optuna_best_score": 0.8573313449343773,
     "model_name": "LightGBM",
     "model_path": "models/best_model.pkl",
-    "cpu_inicio": 23.2,
-    "cpu_final": 78.5,
-    "ram_inicio": 88.1,
-    "ram_final": 75.0,
-    "tiempo_total": 379.21
+    "cpu_inicio": 28.9,
+    "cpu_final": 64.6,
+    "ram_inicio": 92.4,
+    "ram_final": 89.2,
+    "tiempo_total": 897.61
 }
